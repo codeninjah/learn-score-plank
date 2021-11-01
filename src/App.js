@@ -3,6 +3,33 @@ import * as R from 'ramda'
 import {Link, Route} from "wouter"
 import './App.css'
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+import { ref, getDatabase } from "firebase/database"
+
+import { useObject } from 'react-firebase-hooks/database';
+
+
+const firebaseConfig = {
+	apiKey: "AIzaSyA3i92OjcKKmBZFlUnRKUt3SJf8dWQe64A",
+	authDomain: "learn-score-plank-d8b3f.firebaseapp.com",
+	databaseURL: "https://learn-score-plank-d8b3f-default-rtdb.europe-west1.firebasedatabase.app",
+	projectId: "learn-score-plank-d8b3f",
+	storageBucket: "learn-score-plank-d8b3f.appspot.com",
+	messagingSenderId: "114726019474",
+	appId: "1:114726019474:web:72207d023435708881214b"
+  };
+  
+// Initialize Firebase
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app)
+console.log(database)
+
 
 function App() {
 
@@ -38,19 +65,27 @@ const StartPage = () => {
 }
 
 const ScorePage = () => {
+	const [snapshot, loading, error] = useObject(ref(database));
+	
+	if(loading == true) {
+		return "loading"
+	}
+	const data = snapshot.val()
+	console.log(data)
 	return (
 		<div className="score-page">
 			<div className="player-score">
-				<div className="score blue">12</div>
-				<div className="player blue">Malin</div>
+				<div className="score blue">{data.player1.score}</div>
+				<div className="player blue">{data.player1.name}</div>
 			</div>
 			<div className="player-score">
-				<div className="score red">5</div>
-				<div className="player red">Nova</div>
+				<div className="score red">{data.player2.score}</div>
+				<div className="player red">{data.player2.name}</div>
 			</div>
-		</div>
+		</div>	
 	)
 }
+
 
 const JudgePage = () => {
 	const [settingNames, setSettingNames] = React.useState(false)

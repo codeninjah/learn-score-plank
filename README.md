@@ -92,7 +92,7 @@ Add the [react-firebase-hooks](https://github.com/CSFrequency/react-firebase-hoo
 
 If you get and error when trying to log this out, try solving that error :)
 
-Tip: `snapshot.val()` will give an error if you call it while data is still being loaded. Use the `loading` variable to ensure you're not calling `.val()` too early.
+**Tip**: `snapshot.val()` will give an error if you call it while data is still being loaded. Use the `loading` variable to ensure you're not calling `.val()` too early.
 
 ## 7. Use the data
 Now you have everything to make this app real time! Start with exchanging the hard coded player names and scores in the `ScorePage` component to instead use the data from the snapshot.
@@ -101,7 +101,7 @@ Once you finish go to the "Realtime Database" item in your firebase project and 
 
 Do the same thing in the judge view. That is, make sure player names and scores are read from firebase instead of being hard coded.
 
-Tip: the example in the docs looks like this `const [snapshot, loading, error] = useObject(ref(database, 'value'));`. The problem with that is that it's trying to get the data under the key `value`. In our app we want to get all out data, so you need to remove that `'value'` parameter.
+**Tip**: the example in the docs looks like this `const [snapshot, loading, error] = useObject(ref(database, 'value'));`. The problem with that is that it's trying to get the data under the key `value`. In our app we want to get all out data, so you need to remove that `'value'` parameter.
 
 
 ## 8. Write data

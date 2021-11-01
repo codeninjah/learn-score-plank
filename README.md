@@ -49,6 +49,10 @@ Go the the "Realtime database" in your projects dashboard.
 
 		sides: "default"
 
+This is what the data should look like if you did it correctly:
+
+![Initech](assets/correct-data.png)
+
 ## 4. Connect to your new database
 Go to Settings in your firebase project and click and under General > Your apps, click the "</>" button to add a new web project.
 
@@ -60,6 +64,8 @@ Go to Settings in your firebase project and click and under General > Your apps,
 	- When you do an init, make sure to select these two options by pressing space before pressing enter to confirm:
 		- ◉ Database: Configure Firebase Realtime Database and deploy rules
 		- ◉ Hosting: Configure and deploy Firebase Hosting sites
+		(NOTE: if you have a newer version of firebase, it might look like this, pick the following options:)
+		![Initech](assets/choices.png)
 	- In the next step, select "Use an existing project" and select the name of the project you created earlier
 	- Then select the following options:
 		- What file should be used for Realtime Database Security Rules? database.rules.json
@@ -70,9 +76,10 @@ Go to Settings in your firebase project and click and under General > Your apps,
 ## 5. Deploy!
 In `App.js` after the firebase config code you pasted in, add the following:
 
-
-	const database = getDatabase(app); // <-- this line was here
-	console.log(database) // <--- You should add this line
+	import { getDatabase } from "firebase/database"
+	...
+	const database = getDatabase(app)
+	console.log(database)
 
 Run the `npm run dev` and make sure your app still runs and that the `Database` object is logged out in the console.
 
@@ -85,6 +92,7 @@ Add the [react-firebase-hooks](https://github.com/CSFrequency/react-firebase-hoo
 
 If you get and error when trying to log this out, try solving that error :)
 
+**Tip**: `snapshot.val()` will give an error if you call it while data is still being loaded. Use the `loading` variable to ensure you're not calling `.val()` too early.
 
 ## 7. Use the data
 Now you have everything to make this app real time! Start with exchanging the hard coded player names and scores in the `ScorePage` component to instead use the data from the snapshot.
@@ -92,6 +100,8 @@ Now you have everything to make this app real time! Start with exchanging the ha
 Once you finish go to the "Realtime Database" item in your firebase project and in that UI, try changing the player names and their scores and see that the data is also changing in real time in your app on localhost!
 
 Do the same thing in the judge view. That is, make sure player names and scores are read from firebase instead of being hard coded.
+
+**Tip**: the example in the docs looks like this `const [snapshot, loading, error] = useObject(ref(database, 'value'));`. The problem with that is that it's trying to get the data under the key `value`. In our app we want to get all out data, so you need to remove that `'value'` parameter.
 
 
 ## 8. Write data

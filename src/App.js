@@ -88,16 +88,34 @@ const ScorePage = () => {
 
 
 const JudgePage = () => {
-	const [settingNames, setSettingNames] = React.useState(false)
+	//const [settingNames, setSettingNames] = React.useState(false)
+	const [snapshot, loading, error] = useObject(ref(database));
+	
+	if(loading == true) {
+		return "loading"
+	}
+	const data = snapshot.val()
+	console.log(data)
 
-	if (settingNames) {
+	function test(){
+		console.log("HEY!")
+	}
+
+	//useful: https://reactjs.org/docs/faq-functions.html
+
 		return (
 			<div className="judge-page">
 				<div className="ju-name-row ju-name-row-blue">
-					<input className="ju-input" type="text" value="yosef" />
+				<div className="ju-name">{data.player1.name}</div>
+					<div className="ju-points">{data.player1.score}</div>
+					<div className="ju-minus">-</div>
+					<div className="ju-plus" onClick={test}>+</div>
 				</div>
 				<div className="ju-name-row ju-name-row-red">
-					<input className="ju-input" type="text" value="mara" />
+					<div className="ju-name">{data.player2.name}</div>
+					<div className="ju-points">{data.player2.score}</div>
+					<div className="ju-minus">-</div>
+					<div className="ju-plus">+</div>
 				</div>
 				<div className="settings-row">
 					<div className="ju-set">Cancel</div>
@@ -105,7 +123,7 @@ const JudgePage = () => {
 				</div>
 			</div>
 		)
-	}
+	
 
 	return (
 		<div className="judge-page">

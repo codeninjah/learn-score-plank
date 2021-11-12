@@ -9,7 +9,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-import { ref, getDatabase } from "firebase/database"
+import { ref, getDatabase, update } from "firebase/database"
 
 import { useObject } from 'react-firebase-hooks/database';
 
@@ -87,6 +87,7 @@ const ScorePage = () => {
 }
 
 
+
 const JudgePage = () => {
 	//const [settingNames, setSettingNames] = React.useState(false)
 	const [snapshot, loading, error] = useObject(ref(database));
@@ -97,11 +98,24 @@ const JudgePage = () => {
 	const data = snapshot.val()
 	console.log(data)
 
-	function test(){
-		console.log("HEY!")
-	}
 
-	//useful: https://reactjs.org/docs/faq-functions.html
+		//Working to plus the points for Player1
+		//And write it to the firebase DB
+		const testScore = async () => {
+			console.log("Test successfull!")
+			console.log("This is player 1's data: ")
+			console.log(data.player1.score)
+			let p1score = data.player1.score
+			p1score += 1
+			console.log(p1score)
+
+			const updates2 = {}
+			updates2[`player1/score`] = p1score
+			await update(ref(database), updates2)
+		}
+
+	//const plusPlayerOne = document.getElementsByClassName["ju-plus"][0]
+
 
 		return (
 			<div className="judge-page">
@@ -109,7 +123,8 @@ const JudgePage = () => {
 				<div className="ju-name">{data.player1.name}</div>
 					<div className="ju-points">{data.player1.score}</div>
 					<div className="ju-minus">-</div>
-					<div className="ju-plus" onClick={test}>+</div>
+				 	<div className="ju-plus" onClick={() => testScore()}>+</div> 
+					{/* <div className="ju-plus" onClick={data.player1.score + 1}>+</div> */}
 				</div>
 				<div className="ju-name-row ju-name-row-red">
 					<div className="ju-name">{data.player2.name}</div>

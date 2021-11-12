@@ -123,7 +123,7 @@ const JudgePage = () => {
 			console.log(p1score)
 
 			const updates2 = {}
-			updates2[`player1/score`] = p1score //Cannot get ${playerNo} to function instead of player1
+			updates2[`${playerNo.score}`] = p1score //Cannot get ${playerNo} to function instead of player1
 			await update(ref(database), updates2)
 		}
 

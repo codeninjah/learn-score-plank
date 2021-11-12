@@ -101,7 +101,7 @@ const JudgePage = () => {
 
 		//Working to plus the points for Player1
 		//And write it to the firebase DB
-		const testScore = async () => {
+		const addPointPlayerOne = async () => {
 			console.log("Test successfull!")
 			console.log("This is player 1's data: ")
 			console.log(data.player1.score)
@@ -114,6 +114,19 @@ const JudgePage = () => {
 			await update(ref(database), updates2)
 		}
 
+		const removePointPlayerOne = async (playerNo) => {
+			console.log("Test successfull!")
+			console.log("This is player 1's data: ")
+			console.log(playerNo.score)
+			let p1score = playerNo.score
+			p1score -= 1
+			console.log(p1score)
+
+			const updates2 = {}
+			updates2[`player1/score`] = p1score //Cannot get ${playerNo} to function instead of player1
+			await update(ref(database), updates2)
+		}
+
 	//const plusPlayerOne = document.getElementsByClassName["ju-plus"][0]
 
 
@@ -122,8 +135,8 @@ const JudgePage = () => {
 				<div className="ju-name-row ju-name-row-blue">
 				<div className="ju-name">{data.player1.name}</div>
 					<div className="ju-points">{data.player1.score}</div>
-					<div className="ju-minus">-</div>
-				 	<div className="ju-plus" onClick={() => testScore()}>+</div> 
+					<div className="ju-minus" onClick={() => removePointPlayerOne(data.player1)}>-</div>
+				 	<div className="ju-plus" onClick={() => addPointPlayerOne()}>+</div> 
 					{/* <div className="ju-plus" onClick={data.player1.score + 1}>+</div> */}
 				</div>
 				<div className="ju-name-row ju-name-row-red">
